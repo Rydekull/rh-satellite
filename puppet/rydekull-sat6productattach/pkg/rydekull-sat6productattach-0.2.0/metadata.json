@@ -1,0 +1,16 @@
+{
+  "name": "rydekull-sat6productattach",
+  "version": "0.2.0",
+  "author": "rydekull",
+  "summary": "A module that assists users to attach a product with subscription-manager. Created for usage with Sat6",
+  "license": "MIT",
+  "source": "https://github.com/rydekull/rh-satellite",
+  "project_page": "https://github.com/rydekull/rh-satellite",
+  "issues_url": "https://github.com/rydekull/rh-satellite/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ]
+}
