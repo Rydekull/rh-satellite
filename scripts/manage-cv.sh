@@ -1,4 +1,33 @@
 #!/bin/bash
+#
+# Author: Alexander Rydekull <rydekull@redhat.com>
+# Description:
+#   This is a script to ease the management of Content Views, including upload of custom content. It will update 
+#   the Content Views and make sure all Composite Content Views get updated aswell.
+#
+# Example:
+#   [root@rhs ~]# ./manage-cv.sh --cv CV-PUPPET --lifecycle Latest --org MyOrg --repo PuppetRepo --product MyProduct --upload /root/rydekull-testmodule-0.1.6.tar.gz --update-ccvs
+#   Lifecycle: Latest
+#   Org: MyOrg
+#   Product: MyProduct
+#   Repository: PuppetRepo
+#   
+#   Uploading file: /root/rydekull-testmodule-0.1.6.tar.gz
+#   Successfully uploaded file 'rydekull-testmodule-0.1.6.tar.gz'.
+#   
+#   Publishing puppet module in Content View: CV-PUPPET
+#   [......................................................................................................................................................................] [100%]
+#   
+#   Updating the following CCVs: CCV-RHEL7-PUPPET Testing
+#   
+#   Removes old CV version from CCV: CCV-RHEL7-PUPPET
+#   Adding new CV version to CCV: CCV-RHEL7-PUPPET
+#   Publish a new version for the CCV: CCV-RHEL7-PUPPET
+#   [......................................................................................................................................................................] [100%]
+#   
+#   Promote a new version of the CCV: CCV-RHEL7-PUPPET
+#   [......................................................................................................................................................................] [100%]
+#   
 
 function usage()
 {
@@ -18,6 +47,9 @@ function usage()
 while :
 do
   case "$1" in
+    --clean) # Todo: Clean the Content Views of older versions
+      usage
+    ;;
     --cv) # Content View name (Label) to update
       CV="$2"
       shift 2
@@ -40,6 +72,9 @@ do
     --repo) # Repository name
       REPO=$2
       shift 2
+    ;;
+    --save-defaults) # Todo: Save settings as defaults
+      usage
     ;;
     --update-ccvs) # Update all Composite Content Views
       UPDATE_CCVS="true"
