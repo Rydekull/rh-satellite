@@ -15,17 +15,17 @@
 #   Uploading file: /root/rydekull-testmodule-0.1.6.tar.gz
 #   Successfully uploaded file 'rydekull-testmodule-0.1.6.tar.gz'.
 #   
-#   Publishing puppet module in Content View: CV-PUPPET
+#   Publishing Content View: CV-PUPPET
 #   [......................................................................................................................................................................] [100%]
 #   
 #   Updating the following CCVs: CCV-RHEL7-PUPPET Testing
 #   
-#   Removes old CV version from CCV: CCV-RHEL7-PUPPET
+#   Removing old CV version from CCV: CCV-RHEL7-PUPPET
 #   Adding new CV version to CCV: CCV-RHEL7-PUPPET
-#   Publish a new version for the CCV: CCV-RHEL7-PUPPET
+#   Publishing a new version for the CCV: CCV-RHEL7-PUPPET
 #   [......................................................................................................................................................................] [100%]
 #   
-#   Promote a new version of the CCV: CCV-RHEL7-PUPPET
+#   Promoting a new version of the CCV: CCV-RHEL7-PUPPET
 #   [......................................................................................................................................................................] [100%]
 #   
 
@@ -149,7 +149,7 @@ fi
 echo
 PUPPET_CV_ID=$(hammer content-view list --organization-label ${ORG} | grep $CV | awk '{ print $1 }')
 
-echo Publishing puppet module in Content View: $CV
+echo Publishing Content View: $CV
 hammer content-view publish --name $CV --organization-label $ORG
 
 #echo hammer content-view version list --organization-label $ORG --content-view $CV
@@ -197,17 +197,17 @@ then
     PUPPET_CV_OLD_VERSION=$(hammer content-view info --id ${CCV_ID} --organization-label $ORG | grep $CV | awk '{ print $NF }')
     PUPPET_CV_OLD_VERSION_ID=$(hammer --csv content-view version list --organization-label $ORG --content-view-id $PUPPET_CV_ID | awk -F, '$3 ~ /^'${PUPPET_CV_OLD_VERSION}'$/ { print $1 }')
 
-    echo Removes old CV version from CCV: $CCV_NAME
+    echo Removing old CV version from CCV: $CCV_NAME
     hammer content-view remove-version --organization-label $ORG --content-view-version-id $PUPPET_CV_OLD_VERSION_ID --id ${CCV_ID} 2>&1 > /dev/null
 
     echo Adding new CV version to CCV: $CCV_NAME
     hammer content-view add-version --organization-label $ORG --content-view-version-id $PUPPET_CV_LATEST_VERSION --id ${CCV_ID} 2>&1 > /dev/null
 
-    echo Publish a new version for the CCV: $CCV_NAME
+    echo Publishing a new version for the CCV: $CCV_NAME
     hammer content-view publish --id ${CCV_ID} --organization-label $ORG
     CCV_VERSION_ID=$(hammer content-view version list --content-view-id ${CCV_ID} | awk '$0 ~ /Library/ { print $1 }')
 
-    echo Promote a new version of the CCV: $CCV_NAME
+    echo Promoting a new version of the CCV: $CCV_NAME
     hammer content-view version promote --to-lifecycle-environment-id $LIFECYCLE_ID --organization-label $ORG --content-view-id ${CCV_ID} --id ${CCV_VERSION_ID}
   done
 fi
